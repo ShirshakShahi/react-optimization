@@ -1,37 +1,22 @@
-import React, { useState, useCallback } from 'react';
-import Button from './components/UI/Button/Button';
+import React, { useState, useCallback, useMemo } from 'react';
+
 import './App.css';
-import DemoOutput from './components/DEMO/DemoOutput';
+import DemoList from './components/DEMO/DemoList';
+import Button from './components/UI/Button/Button';
 
 function App() {
+  const [listTitle, setListTitle] = useState('My List');
 
-  const [isShown, setIsShown] = useState(false);
-  const [allowToggle, setAllowToggle] = useState(false);
+  const changeTitleHandler = useCallback(() => {
+    setListTitle('New Title');
+  }, []);
 
-  console.log("APP IS RUNNING");
-
-
-  const onClickHandler = useCallback(() => {
-
-    if (allowToggle) {
-      setIsShown(prevParagraph => {
-        return !prevParagraph;
-      });
-    }
-
-  }, [allowToggle])
-
-
-  const allowTogglerHandler = () => {
-    setAllowToggle(true);
-  }
+  const listItems = useMemo(() => [5, 3, 1, 10, 9], []);
 
   return (
     <div className="app">
-      <h1>Hi there!</h1>
-      <DemoOutput show={isShown} />
-      <Button type="submit" onClick={allowTogglerHandler}>Allow Toggling</Button>
-      <Button type="submit" onClick={onClickHandler}>Click Me</Button>
+      <DemoList title={listTitle} items={listItems} />
+      <Button onClick={changeTitleHandler}>Change List Title</Button>
     </div>
   );
 }
